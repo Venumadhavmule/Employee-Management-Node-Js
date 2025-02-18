@@ -34,11 +34,11 @@
         <button type="submit">Register Employee</button>
     </form>
 
-    <!-- <h2>Delete Employee</h2>
+    <h2>Delete Employee</h2>
     <form id="deleteForm">
         <input type="text" id="deleteId" placeholder="Enter Employee ID" required>
         <button type="submit">Delete Employee</button>
-    </form> -->
+    </form>
 
     <script>
         const API_BASE_URL = "http://localhost:5000/employees";
@@ -72,6 +72,31 @@
                 alert("Failed to register employee.");
             }
         });
+
+        //Delete Employee
+        document.getElementById("deleteForm").addEventListener("submit",async function (event) {
+            event.preventDefault();
+            const id = document.getElementById("deleteId").value.trim();
+            if (!id) {
+            alert("Please enter a valid Employee ID.");
+            return;
+        }
+            try{
+                const response = await fetch(`${API_BASE_URL}/delete/${id}`,{
+                    method:"DELETE",
+                })
+                const data = await response.json();
+                if (response.ok) {
+                    alert("Employee Deleted Successfully!");
+                } else {
+                    alert("Error: " + data.message);
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Failed to delete employee.");
+            }
+            
+        })
 
       
     </script>
