@@ -60,8 +60,12 @@ const updateEmployee = async(req,res)=>{
 
 const deleteEmployee = async(req,res)=>{
   try{
+    console.log("Delete Employee API called for ID:", req.params.id);
     const deleteEmployee = await Employee.findByIdAndDelete(req.params.id);
-    res.status(204).send().json({message:"Deleted Successfully"});
+    if(!deleteEmployee){
+      return res.status(404).json({message:"Employee not found"})
+    }
+    res.status(200).json({ message: "Deleted Successfully" });
   }catch(error){
     console.log("Error occured while deleteing employee",error);
     res.status(500).json({message:"Server Error"});
